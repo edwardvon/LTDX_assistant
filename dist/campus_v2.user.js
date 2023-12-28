@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    npm/vite-plugin-monkey
-// @version      2023-12-28_1
+// @version      2023-12-28_2
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg

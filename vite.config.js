@@ -12,7 +12,7 @@ export default defineConfig({
         icon: 'https://vitejs.dev/logo.svg',
         description: "LTDX网课助手",
         author: "cmsang",
-        version: "2023-12-28_1",
+        version: "2023-12-28_2",
         namespace: 'npm/vite-plugin-monkey',
         match: [
           '*://m.campus.chinaunicom.cn/curriculum.html*', 
