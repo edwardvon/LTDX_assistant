@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         campus_v2
-// @namespace    npm/vite-plugin-monkey
+// @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
 // @version      2023-12-28_2
 // @author       cmsang
 // @description  LTDX网课助手
@@ -12463,7 +12463,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
   function getMyAreaInfoCourse() {
     const url = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoCourse";
     const param = {
-      id: "5121",
+      id: window.location.hash.split("=")[1],
       subjectId: "",
       status: "1",
       name: "",

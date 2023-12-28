@@ -12,8 +12,8 @@ export default defineConfig({
         icon: 'https://vitejs.dev/logo.svg',
         description: "LTDX网课助手",
         author: "cmsang",
-        version: "2023-12-28_2",
-        namespace: 'npm/vite-plugin-monkey',
+        version: "2023-12-28_2.1",
+        namespace: 'https://greasyfork.org/zh-CN/scripts/483291-campus-v2',
         match: [
           '*://m.campus.chinaunicom.cn/curriculum.html*', 
           '*://m.campus.chinaunicom.cn/*',

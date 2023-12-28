@@ -30,7 +30,7 @@ function postWithSign(url, param_data) {
 function getMyAreaInfoCourse() {
     const url = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoCourse";
     const param = {
-        id: "5121",
+        id: window.location.hash.split("=")[1],
         subjectId: "",
         status: "1",
         name: "",
