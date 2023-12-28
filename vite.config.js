@@ -10,7 +10,9 @@ export default defineConfig({
       entry: 'src/main.jsx',
       userscript: {
         icon: 'https://vitejs.dev/logo.svg',
-        version:"0.1",
+        description:"LTDX网课助手",
+        author:"cmsang",
+        version:"2023-12-28_1",
         namespace: 'npm/vite-plugin-monkey',
         match: ['*://m.campus.chinaunicom.cn/curriculum.html*'],
         updateURL: "https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js",
