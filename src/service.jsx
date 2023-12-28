@@ -1,5 +1,5 @@
 import axios from "axios";
-import CryptoJS from "crypto-js";
+import { MD5 } from "crypto-js";
 import JSEncrypt from "jsencrypt";
 
 const generateTimestamp = () => {
@@ -64,7 +64,7 @@ function playtimeV2(k_data){
     const sorted_keys = Object.keys(param).sort();
     const queryStr = sorted_keys.map((key)=>(key+'='+param[key])).join("&") + "&"
     console.log(queryStr);
-    const md5_data = CryptoJS.MD5(queryStr).toString();
+    const md5_data = MD5(queryStr).toString();
     console.log(md5_data);
     const sign = encryptByRSA(md5_data);
     param.sign=sign;

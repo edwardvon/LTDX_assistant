@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { info, playtimeV2 } from './service';
-import icon from './assets/icon.png';
+import icon from './assets/icon2.png';
 // import './App.css';
 
 function App() {
