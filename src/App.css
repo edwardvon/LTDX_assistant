@@ -1,5 +1,6 @@
-#root {
-  margin: 0 0;
-  padding: 2rem;
-  text-align: center;
+.sticky-text {
+  position: sticky;
+  bottom: 0;
+  background: #ebffd8;
+  height: 30px;
 }

@@ -1,0 +1,140 @@
+import { useEffect, useState } from "react";
+import { getMyAreaInfoCourse, info, playtimeV2 } from "./service";
+import './App.css';
+
+function ThemePanel({ show }) {
+    const [entityData, setEntityData] = useState({
+        courseList: [],
+        page: {},
+        id: ""
+    });
+
+    const fetchCourseList = () => {
+        return getMyAreaInfoCourse().then((res) => {
+            console.log(res.data);
+            setEntityData(res.data.entity)
+        })
+    }
+
+    useEffect(() => {
+        show && fetchCourseList();
+    }, [show]);
+
+
+    const handleCourseSubmit = (courseId) => {
+        return info(courseId).then(res => {
+            const entity = res.data.entity;
+            console.log(entity);
+            entity.kpointList.map((kItem) => {
+                let kps = [kItem];
+                if (kItem.childKpointList && kItem.childKpointList.length > 0) {
+                    kps = kItem.childKpointList;
+                }
+                kps.map((k) => {
+                    const kpointId = k.id;
+                    const node = entity.courseNode.filter((i) => (i.kpointId == kpointId))[0];
+                    const courseTime = (node.courseSeconds + node.courseMinutes * 60);
+                    const gapTime = courseTime * 1.1;
+                    const n = {
+                        courseId: entity.course.id,
+                        type: "playback",
+                        kpointId: kpointId,
+                        studyTime: gapTime.toFixed(),
+                        breakpoint: 1
+                    }
+                    playtimeV2(n);
+                })
+            });
+        }).then(() => { fetchCourseList() });
+
+
+    }
+
+    return (
+        <div
+            className='el-popover cbg_feedbackPoppver'
+            style={{
+                width: 400,
+                maxHeight: 500,
+                overflow: 'auto',
+                position: 'fixed',
+                bottom: 80,
+                right: 20,
+                transformOrigin: 'right center',
+                zIndex: 2016,
+                display: show ? '' : 'none'
+            }}
+        >
+            {entityData.courseList.map((i) => <CourseItem item={i} key={i.id} onSubmit={handleCourseSubmit} />)}
+            <div className="sticky-text">
+            <p style={{fontSize:16,fontWeight:800}}>这个进度数据不是即时的，点一次就好，不要猛点</p>
+
+            </div>
+        </div >
+    )
+}
+
+function CourseItem({ item, onSubmit }) {
+    const [loading, setLoading] = useState(false);
+
+    const handleClick = (kid) => {
+        setLoading(true);
+        onSubmit(kid).then(() => {
+            setLoading(false);
+        });
+    };
+
+    const buttonRender = (item) => {
+        const { courseProgress, id } = item;
+        if (courseProgress < 100) {
+            return (
+                <button
+                    className={`el-button el-button--primary el-button--small ${loading ? "is-loading" : ""}`}
+                    onClick={() => handleClick(id)}
+                    disabled={loading}
+                >
+                    {loading ? "修改中" : "修改"}
+                </button>
+            )
+        } else {
+            return (<button className="el-button el-button--success el-button--small is-disabled">已完成</button>)
+        }
+    }
+
+    return (
+        <>
+            <div className="el-row">
+                <div className="el-col-20">
+                    <div className="el-col-22">
+                        <strong>{item.name}</strong>
+                    </div>
+                    {/* <div className="el-col-10">
+                        courseId：
+                        <span>{item.id}</span>
+                    </div> */}
+                    {/* <div className="el-col-10">
+                        进度：
+                        <span>{item.courseProgress}%</span>
+                    </div> */}
+                    <div className="el-col-22">
+                        <div className="el-progress el-progress--line">
+                            <div className="el-progress-bar">
+                                <div className="el-progress-bar__outer" style={{ height: 6, backgroundColor: 'rgb(235, 238, 245)' }}>
+                                    <div className="el-progress-bar__inner" style={{ width: `${item.courseProgress}%` }}></div>
+                                </div>
+                            </div>
+                            <div className="el-progress__text" style={{ fontSize: '14.4px', color: 'rgb(96, 98, 102)' }}>{item.courseProgress}%</div>
+                        </div>
+                    </div>
+                </div>
+                <div className="el-col-4">
+                    {buttonRender(item)}
+                </div>
+            </div>
+            <div className="el-divider el-divider--horizontal" style={{ margin: "18px 0" }}></div>
+        </>
+
+    )
+}
+
+export { ThemePanel }
