@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2023-12-29
+// @version      2023-12-29_1
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
 // @downloadURL  https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js
-// @updateURL    https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js
+// @updateURL    https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.meta.js
 // @match        *://m.campus.chinaunicom.cn/curriculum.html*
 // @match        *://m.campus.chinaunicom.cn/*
 // @require      https://cdn.bootcdn.net/ajax/libs/react/18.2.0/umd/react.production.min.js
