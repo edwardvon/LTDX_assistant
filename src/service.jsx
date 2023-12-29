@@ -27,14 +27,14 @@ function postWithSign(url, param_data) {
 }
 
 //theme页课程列表
-function getMyAreaInfoCourse() {
+function getMyAreaInfoCourse(page=1) {
     const url = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoCourse";
     const param = {
         id: window.location.hash.split("=")[1],
         subjectId: "",
         status: "1",
         name: "",
-        currentPage: "1",
+        currentPage: page,
         pageSize: "8",
         total: "0",
     }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyAreaInfoCourse, info, playtimeV2 } from "./service";
+import { Pagination } from "antd";
 import './App.css';
 
 function ThemePanel({ show }) {
@@ -9,11 +10,15 @@ function ThemePanel({ show }) {
         id: ""
     });
 
-    const fetchCourseList = () => {
-        return getMyAreaInfoCourse().then((res) => {
+    const fetchCourseList = (currentPage = 1) => {
+        return getMyAreaInfoCourse(currentPage).then((res) => {
             console.log(res.data);
             setEntityData(res.data.entity)
         })
+    }
+
+    const handlePageChange = (page)=> {
+        return fetchCourseList(page)
     }
 
     useEffect(() => {
@@ -54,8 +59,8 @@ function ThemePanel({ show }) {
         <div
             className='el-popover cbg_feedbackPoppver'
             style={{
-                width: 400,
-                maxHeight: 500,
+                width: 460,
+                maxHeight: 680,
                 overflow: 'auto',
                 position: 'fixed',
                 bottom: 80,
@@ -65,9 +70,17 @@ function ThemePanel({ show }) {
                 display: show ? '' : 'none'
             }}
         >
+
             {entityData.courseList.map((i) => <CourseItem item={i} key={i.id} onSubmit={handleCourseSubmit} />)}
+            <Pagination 
+                current={entityData.page.currentPage} 
+                total={entityData.page.totalPageSize*10} 
+                hideOnSinglePage={true} 
+                showSizeChanger={false} 
+                onChange={handlePageChange}
+            />
             <div className="sticky-text">
-            <p style={{fontSize:16,fontWeight:800}}>这个进度数据不是即时的，点一次就好，不要猛点</p>
+                <p style={{ fontSize: 16, fontWeight: 800 }}>进度数据非实时，不要猛点修改。或者过几分钟刷新确认进度</p>
 
             </div>
         </div >
@@ -76,11 +89,13 @@ function ThemePanel({ show }) {
 
 function CourseItem({ item, onSubmit }) {
     const [loading, setLoading] = useState(false);
+    const [finished, setFinished] = useState(false);
 
     const handleClick = (kid) => {
         setLoading(true);
         onSubmit(kid).then(() => {
             setLoading(false);
+            setFinished(true);
         });
     };
 
@@ -91,9 +106,9 @@ function CourseItem({ item, onSubmit }) {
                 <button
                     className={`el-button el-button--primary el-button--small ${loading ? "is-loading" : ""}`}
                     onClick={() => handleClick(id)}
-                    disabled={loading}
+                    disabled={loading||finished}
                 >
-                    {loading ? "修改中" : "修改"}
+                    {loading ? "修改中" : (finished? "已修改":"修改")}
                 </button>
             )
         } else {
@@ -106,7 +121,7 @@ function CourseItem({ item, onSubmit }) {
             <div className="el-row">
                 <div className="el-col-20">
                     <div className="el-col-22">
-                        <strong>{item.name}</strong>
+                        <p style={{ fontSize: 15 }}>{item.name}</p>
                     </div>
                     {/* <div className="el-col-10">
                         courseId：
