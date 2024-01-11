@@ -27,11 +27,11 @@ function postWithSign(url, param_data) {
 }
 
 //theme页课程列表
-function getMyAreaInfoCourse(page=1) {
+function getMyAreaInfoCourse(page=1,subjectId="") {
     const url = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoCourse";
     const param = {
         id: window.location.hash.split("=")[1],
-        subjectId: "",
+        subjectId: subjectId,
         status: "1",
         name: "",
         currentPage: page,
@@ -39,6 +39,16 @@ function getMyAreaInfoCourse(page=1) {
         total: "0",
     }
     return postWithSign(url,param);
+}
+
+function getMyAreaInfoResourceLibGroup(){
+    const url="https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoResourceLibGroup";
+    const param = {
+        parentLibGroupId: 0,
+        id:  window.location.hash.split("=")[1],
+        parentLibType: "COURSE",
+    }
+    return postWithSign(url,param)
 }
 
 // course页内课程数据
@@ -73,4 +83,5 @@ export {
     info,
     playtimeV2,
     getMyAreaInfoCourse,
+    getMyAreaInfoResourceLibGroup
 }

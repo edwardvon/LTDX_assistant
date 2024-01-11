@@ -12,13 +12,13 @@ export default defineConfig({
         icon: 'https://vitejs.dev/logo.svg',
         description: "LTDX网课助手",
         author: "cmsang",
-        version: "2023-12-29",
+        version: "2024-1-11",
         namespace: 'https://greasyfork.org/zh-CN/scripts/483291-campus-v2',
         match: [
           '*://m.campus.chinaunicom.cn/curriculum.html*', 
           '*://m.campus.chinaunicom.cn/*',
         ],
-        updateURL: "https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js",
+        updateURL: "https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.meta.js",
         downloadURL: "https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js"
       },
       build: {

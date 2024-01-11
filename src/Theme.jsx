@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getMyAreaInfoCourse, info, playtimeV2 } from "./service";
-import { Pagination } from "antd";
+import { getMyAreaInfoCourse, info, playtimeV2, getMyAreaInfoResourceLibGroup } from "./service";
+import { Pagination, Select } from "antd";
 import './App.css';
 
 function ThemePanel({ show }) {
@@ -9,22 +9,34 @@ function ThemePanel({ show }) {
         page: {},
         id: ""
     });
+    const [subjectId, setSubjectId] = useState("");
+    const [groupList, setGroupList] = useState([]);
 
-    const fetchCourseList = (currentPage = 1) => {
-        return getMyAreaInfoCourse(currentPage).then((res) => {
+    const fetchCourseList = (currentPage = 1, subjectId = "") => {
+        return getMyAreaInfoCourse(currentPage, subjectId).then((res) => {
             console.log(res.data);
             setEntityData(res.data.entity)
         })
     }
 
-    const handlePageChange = (page)=> {
-        return fetchCourseList(page)
+    const handlePageChange = (page) => {
+        return fetchCourseList(page, subjectId);
     }
 
     useEffect(() => {
-        show && fetchCourseList();
-    }, [show]);
+        show && fetchCourseList(1, subjectId);
+    }, [show, subjectId]);
 
+    useEffect(() => {
+        getMyAreaInfoResourceLibGroup().then((res) => {
+            const ll = res.data.entity.planLibGroupList;
+            setGroupList(ll.map(item => ({ value: item.id, label: item.name })))
+        })
+    }, []);
+
+    const handleGroupSelect = (subjectId) => {
+        setSubjectId(subjectId)
+    }
 
     const handleCourseSubmit = (courseId) => {
         return info(courseId).then(res => {
@@ -54,7 +66,6 @@ function ThemePanel({ show }) {
 
 
     }
-
     return (
         <div
             className='el-popover cbg_feedbackPoppver'
@@ -66,21 +77,27 @@ function ThemePanel({ show }) {
                 bottom: 80,
                 right: 20,
                 transformOrigin: 'right center',
-                zIndex: 2016,
+                zIndex: 100,
                 display: show ? '' : 'none'
             }}
         >
+            {groupList.length > 1 &&
+                <>
+                    分类：<Select options={groupList} style={{ minWidth: 180 }} onChange={(value) => { handleGroupSelect(value) }} />
+                    <div className="el-divider el-divider--horizontal" style={{ margin: "10px 0" }}></div>
+                </>
+            }
 
             {entityData.courseList.map((i) => <CourseItem item={i} key={i.id} onSubmit={handleCourseSubmit} />)}
-            <Pagination 
-                current={entityData.page.currentPage} 
-                total={entityData.page.totalPageSize*10} 
-                hideOnSinglePage={true} 
-                showSizeChanger={false} 
+            <Pagination
+                current={entityData.page.currentPage}
+                total={entityData.page.totalPageSize * 10}
+                hideOnSinglePage={true}
+                showSizeChanger={false}
                 onChange={handlePageChange}
             />
             <div className="sticky-text">
-                <p style={{ fontSize: 16, fontWeight: 800 }}>进度数据非实时，不要猛点修改。或者过几分钟刷新确认进度</p>
+                <p style={{ fontSize: 16, fontWeight: 800 }}>进度数据非实时，点一次修改就好，过几分钟刷新确认进度</p>
 
             </div>
         </div >
@@ -106,9 +123,9 @@ function CourseItem({ item, onSubmit }) {
                 <button
                     className={`el-button el-button--primary el-button--small ${loading ? "is-loading" : ""}`}
                     onClick={() => handleClick(id)}
-                    disabled={loading||finished}
+                    disabled={loading || finished}
                 >
-                    {loading ? "修改中" : (finished? "已修改":"修改")}
+                    {loading ? "修改中" : (finished ? "已修改" : "修改")}
                 </button>
             )
         } else {
@@ -121,7 +138,7 @@ function CourseItem({ item, onSubmit }) {
             <div className="el-row">
                 <div className="el-col-20">
                     <div className="el-col-22">
-                        <p style={{ fontSize: 15 }}>{item.name}</p>
+                        <p style={{ fontSize: 14 }}>{item.name}</p>
                     </div>
                     {/* <div className="el-col-10">
                         courseId：
@@ -138,7 +155,7 @@ function CourseItem({ item, onSubmit }) {
                                     <div className="el-progress-bar__inner" style={{ width: `${item.courseProgress}%` }}></div>
                                 </div>
                             </div>
-                            <div className="el-progress__text" style={{ fontSize: '14.4px', color: 'rgb(96, 98, 102)' }}>{item.courseProgress}%</div>
+                            <div className="el-progress__text" style={{ fontSize: '14px', color: 'rgb(96, 98, 102)' }}>{item.courseProgress}%</div>
                         </div>
                     </div>
                 </div>
@@ -146,7 +163,7 @@ function CourseItem({ item, onSubmit }) {
                     {buttonRender(item)}
                 </div>
             </div>
-            <div className="el-divider el-divider--horizontal" style={{ margin: "18px 0" }}></div>
+            <div className="el-divider el-divider--horizontal" style={{ margin: "10px 0" }}></div>
         </>
 
     )
