@@ -8,6 +8,7 @@ function idenUrl() {
   const url = window.location.href;
   if (url.indexOf("ThemeCourses") > 0) return "theme";
   if (url.indexOf("curriculum.html") > 0) return "course";
+  if (url.indexOf("curriculum.html") > 0) return "course";
   return false;
 }
 

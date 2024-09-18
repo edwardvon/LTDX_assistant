@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2024-9-18
+// @version      2024-1-11
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
@@ -12532,34 +12532,20 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
         setEntityData(res.data.entity);
       });
     };
-    const handleSubmit = async (kpointId, playedTime) => {
-      console.log(playedTime);
+    const handleSubmit = (kpointId) => {
       const node2 = entityData.courseNode.filter((i) => i.kpointId == kpointId)[0];
       const courseTime = node2.courseSeconds + node2.courseMinutes * 60;
-      const step = 179;
-      for (let i = playedTime + step; i <= courseTime + step; i += step) {
-        const n2 = {
-          courseId: entityData.course.id,
-          type: "playback",
-          kpointId,
-          studyTime: i,
-          breakpoint: 1,
-          accrualType: 0
-        };
-        let a = await playtimeV2(n2).then(
-          (res) => {
-            return res.data.entity;
-          },
-          (error) => {
-            console.log(error);
-            return false;
-          }
-        );
-        if (!a) {
-          break;
-        }
-      }
-      return fetchVideoList();
+      const gapTime = courseTime * 1.1;
+      const n2 = {
+        courseId: entityData.course.id,
+        type: "playback",
+        kpointId,
+        studyTime: gapTime.toFixed(),
+        breakpoint: 1
+      };
+      return playtimeV2(n2).then(() => {
+        return fetchVideoList();
+      });
     };
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
@@ -12581,7 +12567,9 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
           if (item.childKpointList && item.childKpointList.length > 0) {
             kps = item.childKpointList;
           }
-          return kps.map((i) => /* @__PURE__ */ jsxRuntimeExports.jsx(VideoItem, { item: i, onSubmit: handleSubmit }, i.id));
+          return kps.map(
+            (i) => /* @__PURE__ */ jsxRuntimeExports.jsx(VideoItem, { item: i, onSubmit: handleSubmit }, i.id)
+          );
         })
       }
     );
@@ -12590,22 +12578,9 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     const [loading, setLoading] = React.useState(false);
     const handleClick = (kid) => {
       setLoading(true);
-      onSubmit(kid, playedTime()).then(
-        () => {
-          setLoading(false);
-        },
-        (error) => {
-          alert(error);
-          setLoading(false);
-        }
-      );
-    };
-    const playedTime = () => {
-      if (item.userPlayTime && item.userPlayTime > 0)
-        return item.userPlayTime;
-      if (item.userKopintPlayTime && item.userKopintPlayTime > 0)
-        return item.userKopintPlayTime;
-      return 0;
+      onSubmit(kid).then(() => {
+        setLoading(false);
+      });
     };
     const buttonRender = (item2) => {
       const { progress, id } = item2;
@@ -18953,7 +18928,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
       children,
       csp: customCsp,
       autoInsertSpaceInButton,
-      alert: alert2,
+      alert,
       anchor,
       form,
       locale: locale2,
@@ -19037,7 +19012,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     const baseConfig = {
       csp,
       autoInsertSpaceInButton,
-      alert: alert2,
+      alert,
       anchor,
       locale: locale2 || legacyLocale,
       direction,
@@ -32266,8 +32241,6 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     const url2 = window.location.href;
     if (url2.indexOf("ThemeCourses") > 0)
       return "theme";
-    if (url2.indexOf("curriculum.html") > 0)
-      return "course";
     if (url2.indexOf("curriculum.html") > 0)
       return "course";
     return false;

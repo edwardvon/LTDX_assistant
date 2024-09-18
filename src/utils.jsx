@@ -27,4 +27,10 @@ function encryptByRSA(message, publicKey = pKey) {
     return dd;
 }
 
-export { generateRandomString, generateTimestamp, encryptByRSA }
+function sleep(time) {
+    return new Promise(function(resolve){
+        setTimeout(resolve,time);
+    });
+}
+
+export { generateRandomString, generateTimestamp, encryptByRSA,sleep }
