@@ -9,8 +9,8 @@
 // @updateURL    https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.meta.js
 // @match        *://m.campus.chinaunicom.cn/curriculum.html*
 // @match        *://m.campus.chinaunicom.cn/*
-// @require      https://cdn.bootcdn.net/ajax/libs/react/18.2.0/umd/react.production.min.js
-// @require      https://cdn.bootcdn.net/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
