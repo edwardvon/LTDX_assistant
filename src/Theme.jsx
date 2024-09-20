@@ -23,7 +23,7 @@ function ThemePanel({ show }) {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        return fetchCourseList(page, subjectId);
+        return fetchCourseList(subjectId);
     }
 
     useEffect(() => {

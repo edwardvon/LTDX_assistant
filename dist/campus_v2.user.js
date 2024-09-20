@@ -32139,7 +32139,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     };
     const handlePageChange = (page) => {
       setCurrentPage(page);
-      return fetchCourseList(page);
+      return fetchCourseList(subjectId);
     };
     React.useEffect(() => {
       show && fetchCourseList(subjectId);
