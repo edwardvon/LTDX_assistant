@@ -14,8 +14,8 @@ function ThemePanel({ show }) {
     const [groupList, setGroupList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const fetchCourseList = (subjectId = "") => {
-        return getMyAreaInfoCourse(currentPage, subjectId).then((res) => {
+    const fetchCourseList = (page=currentPage,subjectId = "") => {
+        return getMyAreaInfoCourse(page, subjectId).then((res) => {
             console.log(res.data);
             setEntityData(res.data.entity)
         })
@@ -23,7 +23,7 @@ function ThemePanel({ show }) {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        return fetchCourseList(subjectId);
+        return fetchCourseList(page,subjectId);
     }
 
     useEffect(() => {
