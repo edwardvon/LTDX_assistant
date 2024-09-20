@@ -32131,7 +32131,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     const [subjectId, setSubjectId] = React.useState("");
     const [groupList, setGroupList] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
-    const fetchCourseList = (page = currentPage, subjectId2 = "") => {
+    const fetchCourseList = (page, subjectId2 = "") => {
       return getMyAreaInfoCourse(page, subjectId2).then((res) => {
         console.log(res.data);
         setEntityData(res.data.entity);
@@ -32142,7 +32142,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
       return fetchCourseList(page, subjectId);
     };
     React.useEffect(() => {
-      show && fetchCourseList(subjectId);
+      show && fetchCourseList(currentPage, subjectId);
     }, [show, subjectId]);
     React.useEffect(() => {
       getMyAreaInfoResourceLibGroup().then((res) => {
@@ -32182,7 +32182,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
           }
         });
       }).then(() => {
-        fetchCourseList();
+        fetchCourseList(currentPage, subjectId);
       });
     };
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(
