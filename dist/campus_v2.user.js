@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2024-9-20
+// @version      2024-9-20beta
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
@@ -32130,17 +32130,19 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     });
     const [subjectId, setSubjectId] = React.useState("");
     const [groupList, setGroupList] = React.useState([]);
-    const fetchCourseList = (currentPage = 1, subjectId2 = "") => {
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const fetchCourseList = (subjectId2 = "") => {
       return getMyAreaInfoCourse(currentPage, subjectId2).then((res) => {
         console.log(res.data);
         setEntityData(res.data.entity);
       });
     };
     const handlePageChange = (page) => {
-      return fetchCourseList(page, subjectId);
+      setCurrentPage(page);
+      return fetchCourseList(page);
     };
     React.useEffect(() => {
-      show && fetchCourseList(1, subjectId);
+      show && fetchCourseList(subjectId);
     }, [show, subjectId]);
     React.useEffect(() => {
       getMyAreaInfoResourceLibGroup().then((res) => {
