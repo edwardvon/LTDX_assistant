@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMyAreaInfoCourse, info, playtimeV2, getMyAreaInfoResourceLibGroup } from "./service";
 import { Pagination, Select } from "antd";
 import './App.css';
+import { sleep } from "./utils";
 
 function ThemePanel({ show }) {
     const [entityData, setEntityData] = useState({
@@ -42,30 +43,35 @@ function ThemePanel({ show }) {
         return info(courseId).then(res => {
             const entity = res.data.entity;
             console.log(entity);
-            entity.kpointList.map((kItem) => {
+            return entity.kpointList.map(async (kItem) => {
                 let kps = [kItem];
                 if (kItem.childKpointList && kItem.childKpointList.length > 0) {
                     kps = kItem.childKpointList;
                 }
-                kps.map((k) => {
+                for (let idx=0;idx<kps.length;idx++) {
+                    const k = kps[idx];
                     const kpointId = k.id;
+                    const playedTime = k.userPlayTime || k.userKopintPlayTime || 0;
                     const node = entity.courseNode.filter((i) => (i.kpointId == kpointId))[0];
                     const courseTime = (node.courseSeconds + node.courseMinutes * 60);
-                    const gapTime = courseTime * 1.1;
-                    const n = {
-                        courseId: entity.course.id,
-                        type: "playback",
-                        kpointId: kpointId,
-                        studyTime: gapTime.toFixed(),
-                        breakpoint: 1
+                    // 2024-9-18 发现平台限制单次请求studyTime上限（<180）
+                    const step= 179;
+                    for (let i=playedTime+step;i<=courseTime+step;i+=step){
+                        const n = {
+                            courseId: entity.course.id,
+                            type: "playback",
+                            kpointId: kpointId,
+                            studyTime: i,
+                            breakpoint: 1
+                        }
+                        await playtimeV2(n);
                     }
-                    playtimeV2(n);
-                })
-            });
+                }
+            })
         }).then(() => { fetchCourseList() });
 
+    };
 
-    }
     return (
         <div
             className='el-popover cbg_feedbackPoppver'
@@ -97,7 +103,7 @@ function ThemePanel({ show }) {
                 onChange={handlePageChange}
             />
             <div className="sticky-text">
-                <p style={{ fontSize: 16, fontWeight: 800 }}>进度数据非实时，点一次修改就好，过几分钟刷新确认进度</p>
+                <p style={{ fontSize: 16, fontWeight: 800 }}>点修改后不要马上关闭页面，等1分钟刷新确认进度</p>
 
             </div>
         </div >
@@ -125,7 +131,7 @@ function CourseItem({ item, onSubmit }) {
                     onClick={() => handleClick(id)}
                     disabled={loading || finished}
                 >
-                    {loading ? "修改中" : (finished ? "已修改" : "修改")}
+                    {loading ? "修改中" : (finished ? "已启动" : "修改")}
                 </button>
             )
         } else {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2024-9-18
+// @version      2024-9-20
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
@@ -12485,7 +12485,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
   function getMyAreaInfoCourse(page = 1, subjectId = "") {
     const url2 = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoCourse";
     const param = {
-      id: window.location.hash.split("=")[1],
+      id: window.location.hash.split("=")[1].split("&")[0],
       subjectId,
       status: "1",
       name: "",
@@ -12499,7 +12499,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     const url2 = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoResourceLibGroup";
     const param = {
       parentLibGroupId: 0,
-      id: window.location.hash.split("=")[1],
+      id: window.location.hash.split("=")[1].split("&")[0],
       parentLibType: "COURSE"
     };
     return postWithSign(url2, param);
@@ -12548,7 +12548,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
         };
         let a = await playtimeV2(n2).then(
           (res) => {
-            return res.data.entity;
+            return res.data.entity >= 100;
           },
           (error) => {
             console.log(error);
@@ -32155,25 +32155,29 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
       return info(courseId).then((res) => {
         const entity = res.data.entity;
         console.log(entity);
-        entity.kpointList.map((kItem) => {
+        return entity.kpointList.map(async (kItem) => {
           let kps = [kItem];
           if (kItem.childKpointList && kItem.childKpointList.length > 0) {
             kps = kItem.childKpointList;
           }
-          kps.map((k2) => {
+          for (let idx = 0; idx < kps.length; idx++) {
+            const k2 = kps[idx];
             const kpointId = k2.id;
+            const playedTime = k2.userPlayTime || k2.userKopintPlayTime || 0;
             const node2 = entity.courseNode.filter((i) => i.kpointId == kpointId)[0];
             const courseTime = node2.courseSeconds + node2.courseMinutes * 60;
-            const gapTime = courseTime * 1.1;
-            const n2 = {
-              courseId: entity.course.id,
-              type: "playback",
-              kpointId,
-              studyTime: gapTime.toFixed(),
-              breakpoint: 1
-            };
-            playtimeV2(n2);
-          });
+            const step = 179;
+            for (let i = playedTime + step; i <= courseTime + step; i += step) {
+              const n2 = {
+                courseId: entity.course.id,
+                type: "playback",
+                kpointId,
+                studyTime: i,
+                breakpoint: 1
+              };
+              await playtimeV2(n2);
+            }
+          }
         });
       }).then(() => {
         fetchCourseList();
@@ -32213,7 +32217,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
               onChange: handlePageChange
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sticky-text", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: 16, fontWeight: 800 }, children: "进度数据非实时，点一次修改就好，过几分钟刷新确认进度" }) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sticky-text", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: 16, fontWeight: 800 }, children: "点修改后不要马上关闭页面，等1分钟刷新确认进度" }) })
         ]
       }
     );
@@ -32237,7 +32241,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
             className: `el-button el-button--primary el-button--small ${loading ? "is-loading" : ""}`,
             onClick: () => handleClick(id),
             disabled: loading || finished,
-            children: loading ? "修改中" : finished ? "已修改" : "修改"
+            children: loading ? "修改中" : finished ? "已启动" : "修改"
           }
         );
       } else {

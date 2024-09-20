@@ -30,7 +30,7 @@ function postWithSign(url, param_data) {
 function getMyAreaInfoCourse(page=1,subjectId="") {
     const url = "https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoCourse";
     const param = {
-        id: window.location.hash.split("=")[1],
+        id: window.location.hash.split("=")[1].split('&')[0],
         subjectId: subjectId,
         status: "1",
         name: "",
@@ -45,7 +45,7 @@ function getMyAreaInfoResourceLibGroup(){
     const url="https://app.campus.chinaunicom.cn/app/themeColumn/getMyAreaInfoResourceLibGroup";
     const param = {
         parentLibGroupId: 0,
-        id:  window.location.hash.split("=")[1],
+        id:  window.location.hash.split("=")[1].split('&')[0],
         parentLibType: "COURSE",
     }
     return postWithSign(url,param)
