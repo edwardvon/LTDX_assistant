@@ -38,7 +38,8 @@ function ThemePanel({ show }) {
     }, []);
 
     const handleGroupSelect = (subjectId) => {
-        setSubjectId(subjectId)
+        setCurrentPage(1);
+        setSubjectId(subjectId);
     }
 
     const handleCourseSubmit = (courseId) => {
@@ -91,7 +92,7 @@ function ThemePanel({ show }) {
         >
             {groupList.length > 1 &&
                 <>
-                    分类：<Select options={groupList} style={{ minWidth: 180 }} onChange={(value) => { handleGroupSelect(value) }} />
+                    分类：<Select options={[{value:"",label:"全部"},...groupList]} style={{ minWidth: 180 }} onChange={(value) => { handleGroupSelect(value) }} />
                     <div className="el-divider el-divider--horizontal" style={{ margin: "10px 0" }}></div>
                 </>
             }

@@ -32151,6 +32151,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
       });
     }, []);
     const handleGroupSelect = (subjectId2) => {
+      setCurrentPage(1);
       setSubjectId(subjectId2);
     };
     const handleCourseSubmit = (courseId) => {
@@ -32203,7 +32204,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
         children: [
           groupList.length > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             "分类：",
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Select$1, { options: groupList, style: { minWidth: 180 }, onChange: (value) => {
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Select$1, { options: [{ value: "", label: "全部" }, ...groupList], style: { minWidth: 180 }, onChange: (value) => {
               handleGroupSelect(value);
             } }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "el-divider el-divider--horizontal", style: { margin: "10px 0" } })
