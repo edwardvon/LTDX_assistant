@@ -103,7 +103,7 @@ function ThemePanel({ show }) {
                 onChange={handlePageChange}
             />
             <div className="sticky-text">
-                <p style={{ fontSize: 16, fontWeight: 800 }}>点修改后不要马上关闭页面，等1分钟刷新确认进度</p>
+                <p style={{ fontSize: 16, fontWeight: 800 }}>点修改后不要马上关闭页面，等1分钟刷新确认进度（非实时，可进入课程内确认）</p>
 
             </div>
         </div >

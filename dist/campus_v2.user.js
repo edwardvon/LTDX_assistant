@@ -32217,7 +32217,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
               onChange: handlePageChange
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sticky-text", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: 16, fontWeight: 800 }, children: "点修改后不要马上关闭页面，等1分钟刷新确认进度" }) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sticky-text", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: 16, fontWeight: 800 }, children: "点修改后不要马上关闭页面，等1分钟刷新确认进度（非实时，可进入课程内确认）" }) })
         ]
       }
     );
