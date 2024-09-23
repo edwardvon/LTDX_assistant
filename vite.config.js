@@ -23,8 +23,8 @@ export default defineConfig({
       },
       build: {
         externalGlobals: {
-          react: cdn.cdnjs('React', 'umd/react.production.min.js'),
-          'react-dom': cdn.cdnjs(
+          react: cdn.elemecdn('React', 'umd/react.production.min.js'),
+          'react-dom': cdn.elemecdn(
             'ReactDOM',
             'umd/react-dom.production.min.js',
           ),
