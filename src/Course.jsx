@@ -62,7 +62,7 @@ function VideoPanel({ show }) {
       };
       let a = await playtimeV2(n).then(
         (res) => {
-          return res.data.entity>=100;
+          return res.data.entity<100;
         },
         (error) => {
           console.log(error);

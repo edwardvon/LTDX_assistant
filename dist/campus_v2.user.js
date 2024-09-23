@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2024-9-23
+// @version      2024-9-24
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
@@ -12548,7 +12548,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
         };
         let a = await playtimeV2(n2).then(
           (res) => {
-            return res.data.entity >= 100;
+            return res.data.entity < 100;
           },
           (error) => {
             console.log(error);
