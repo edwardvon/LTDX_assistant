@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2024-9-24beta
+// @version      2024-12-09
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
 // @downloadURL  https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js
 // @updateURL    https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.meta.js
-// @match        *://m.campus.chinaunicom.cn/curriculum.html*
-// @match        *://m.campus.chinaunicom.cn/*
+// @match        *://*campus.chinaunicom.cn/curriculum.html*
+// @match        *://*campus.chinaunicom.cn/*
 // @require      https://npm.elemecdn.com/react@18.2.0/umd/react.production.min.js
 // @require      https://npm.elemecdn.com/react-dom@18.2.0/umd/react-dom.production.min.js
 // @grant        GM_addStyle
@@ -33590,8 +33590,8 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
       return "theme";
     if (url2.indexOf("curriculum.html") > 0)
       return "course";
-    if (url2.indexOf("curriculum.html") > 0)
-      return "course";
+    if (url2.indexOf("lawplatform.unicom.local") > 0)
+      return "lawplatform";
     return false;
   }
   function App() {
@@ -33605,11 +33605,18 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
         "img",
         {
           src: icon,
-          style: { width: 64, position: "fixed", bottom: 0, right: 0, opacity: 0.6 },
+          style: {
+            width: 64,
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            opacity: 0.6
+          },
           onClick: handleShowPanel
         }
       ),
-      urlFlag == "theme" ? /* @__PURE__ */ jsxRuntimeExports.jsx(ThemePanel, { show: showPanel }) : /* @__PURE__ */ jsxRuntimeExports.jsx(VideoPanel, { show: showPanel })
+      urlFlag == "course" && /* @__PURE__ */ jsxRuntimeExports.jsx(VideoPanel, { show: showPanel }),
+      urlFlag == "theme" && /* @__PURE__ */ jsxRuntimeExports.jsx(ThemePanel, { show: showPanel })
     ] });
   }
   client.createRoot(
