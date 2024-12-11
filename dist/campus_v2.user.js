@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         campus_v2
 // @namespace    https://greasyfork.org/zh-CN/scripts/483291-campus-v2
-// @version      2024-12-09
+// @version      2024-12-11
 // @author       cmsang
 // @description  LTDX网课助手
 // @icon         https://vitejs.dev/logo.svg
