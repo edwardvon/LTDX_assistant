@@ -17,6 +17,7 @@ export default defineConfig({
         match: [
           '*://*campus.chinaunicom.cn/curriculum.html*', 
           '*://*campus.chinaunicom.cn/*',
+          '*://party.chinaunicom.cn/*ltxfStudyCenterDetailPage.html*',
         ],
         updateURL: "https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.meta.js",
         downloadURL: "https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.user.js"
