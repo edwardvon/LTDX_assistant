@@ -21,10 +21,11 @@ function PartyPanel({show}) {
     const partyCourseId = s.slice(start, end);
     const token = getCookie("token");
     const url =
-      "https://party.chinaunicom.cn/api/xxpt/courseGetOrSet/getCourseDetailById?loading=1&token=" +
+      "https://party.chinaunicom.cn/api/xxpt/courseGetOrSet/getCourseDetailById?token=" +
       token +
       "&courseId=" +
-      partyCourseId;
+      partyCourseId
+      // +"&loading=1";
     return await fetch(url)
       .then((res) => res.json())
       .then((res) => {
@@ -37,10 +38,11 @@ function PartyPanel({show}) {
   useEffect(() => {
     async function ins() {
     if (document.querySelectorAll("#cmsang").length>0){return;}
-      const courseId = await fetchCourseInfo();
-      const baseUrl =
-        "https://campus.chinaunicom.cn/training/pc/curriculum.html#/web/course_courseDetails/";
-      const url = baseUrl + courseId;
+      // const courseId = await fetchCourseInfo();
+      // const baseUrl =
+      //   "https://campus.chinaunicom.cn/training/pc/curriculum.html#/web/course_courseDetails/";
+      // const url = baseUrl + courseId;
+      const url =await fetchCourseInfo();
       console.log(url);
       const b = document.querySelector(".detail_title>div");
       const aa = document.createElement("a");

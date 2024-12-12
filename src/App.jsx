@@ -8,7 +8,7 @@ import "./App.css";
 function idenUrl() {
   const url = window.location.href;
   if (url.indexOf("ThemeCourses") > 0) return "theme";
-  if (url.indexOf("curriculum.html") > 0) return "course";
+  if (url.indexOf("curriculum.html") > 0 || url.indexOf("iCourse") > 0) return "course";
   // if (url.indexOf("lawplatform.unicom.local") > 0) return "lawplatform";
   if (url.indexOf("party.chinaunicom.cn")>0) return "party";
   return false;

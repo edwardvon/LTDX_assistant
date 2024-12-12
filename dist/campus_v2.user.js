@@ -9,6 +9,7 @@
 // @updateURL    https://raw.githubusercontent.com/edwardvon/LTDX_assistant/master/dist/campus_v2.meta.js
 // @match        *://*campus.chinaunicom.cn/curriculum.html*
 // @match        *://*campus.chinaunicom.cn/*
+// @match        *://m.campus.chinaunicom.cn*
 // @match        *://party.chinaunicom.cn/*ltxfStudyCenterDetailPage.html*
 // @require      https://npm.elemecdn.com/react@18.2.0/umd/react.production.min.js
 // @require      https://npm.elemecdn.com/react-dom@18.2.0/umd/react-dom.production.min.js
@@ -33601,7 +33602,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
       const end = start + 36;
       const partyCourseId = s.slice(start, end);
       const token2 = getCookie("token");
-      const url2 = "https://party.chinaunicom.cn/api/xxpt/courseGetOrSet/getCourseDetailById?loading=1&token=" + token2 + "&courseId=" + partyCourseId;
+      const url2 = "https://party.chinaunicom.cn/api/xxpt/courseGetOrSet/getCourseDetailById?token=" + token2 + "&courseId=" + partyCourseId;
       return await fetch(url2).then((res) => res.json()).then((res) => {
         console.log(res);
         return res.data.courseUrl;
@@ -33612,9 +33613,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
         if (document.querySelectorAll("#cmsang").length > 0) {
           return;
         }
-        const courseId = await fetchCourseInfo();
-        const baseUrl = "https://campus.chinaunicom.cn/training/pc/curriculum.html#/web/course_courseDetails/";
-        const url2 = baseUrl + courseId;
+        const url2 = await fetchCourseInfo();
         console.log(url2);
         const b2 = document.querySelector(".detail_title>div");
         const aa = document.createElement("a");
@@ -33633,7 +33632,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAooxomrujIP9vcxxNmS+Q1xxnaoxAfluwFvDR
     const url2 = window.location.href;
     if (url2.indexOf("ThemeCourses") > 0)
       return "theme";
-    if (url2.indexOf("curriculum.html") > 0)
+    if (url2.indexOf("curriculum.html") > 0 || url2.indexOf("iCourse") > 0)
       return "course";
     if (url2.indexOf("party.chinaunicom.cn") > 0)
       return "party";
